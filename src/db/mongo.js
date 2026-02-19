@@ -7,43 +7,43 @@ let bucket;
 export async function connectDB() {
   if (db) return db;
 
-  try {
-    if (!process.env.MONGODB_URI) {
-      throw new Error('MONGODB_URI no está definida');
-    }
-  } catch (error) {
-    console.error('Error al conectar a MongoDB:', error.message);
+  const uri = process.env.MONGODB_URI;
+  const dbName = process.env.DB_NAME;
+
+  if (!uri) {
+    throw new Error('MONGODB_URI no esta definida');
   }
 
-  client = new MongoClient(process.env.MONGODB_URI);
+  if (!dbName) {
+    throw new Error('DB_NAME no esta definida');
+  }
+
+  client = new MongoClient(uri, {
+    serverSelectionTimeoutMS: 10000
+  });
+
   await client.connect();
 
-  db = client.db(process.env.DB_NAME);
+  db = client.db(dbName);
   console.log('MongoDB conectado');
 
   bucket = new GridFSBucket(db, {
     bucketName: 'uploads'
   });
+
+  return db;
 }
 
 export function getDB() {
-  try {
-    if (!db) {
-      throw new Error('DB no inicializada');
-    }
-  } catch (error) {
-    console.log(`Error al obtener la base de datos: ${error}`); 
+  if (!db) {
+    throw new Error('DB no inicializada');
   }
   return db;
 }
 
 export function getBucket(){
-  try {
-    if(!bucket) {
-      throw new Error('Bucket no inicializadad');
-    }
-  } catch (error) {
-    console.log(`Error al obtener el bucket: ${error}`); 
+  if(!bucket) {
+    throw new Error('Bucket no inicializado');
   }
-  return bucket
+  return bucket;
 }

@@ -2,10 +2,12 @@ import 'dotenv/config';
 import app from './app.js';
 import { connectDB } from './src/db/mongo.js';
 
-await connectDB();
+const PORT = Number(process.env.PORT) || 10000;
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
+
+connectDB().catch((error) => {
+    console.error('Fallo la conexion a MongoDB:', error.message);
 });
