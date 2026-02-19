@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { upload } from '../middlewares/upload.middleware.js'
-import { uploadFile } from '../controllers/file.controller.js';
+import { uploadFile, getFiles } from '../controllers/file.controller.js';
 
 const router = Router();
 
-// POST /files
+// GET /upload
+router.get('/', getFiles);
+// POST /upload
 router.post('/', upload.single('file'), uploadFile);
 
 export default router;
