@@ -10,7 +10,7 @@ export async function uploadFile(req, res) {
 
         console.log(` `)
         console.log(`POST`)
-        console.log(`localhost:5000/files`)
+        console.log(`/upload`)
         const { buffer, ...fileWithOutBuffer } = req.file;
         console.log(fileWithOutBuffer);
         console.log(` `)
@@ -41,7 +41,6 @@ export async function uploadFile(req, res) {
                 message: 'File uploaded succesfully',
                 fileId: uploadStream.id,
                 filename: uploadStream.filename,
-                // file: fileWithOutBuffer
             });
         });
 

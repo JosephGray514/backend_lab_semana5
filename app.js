@@ -5,8 +5,8 @@ import fileRoutes from './src/routes/file.routes.js';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors())
 
-app.use('/files', fileRoutes);
+app.use('/upload', fileRoutes);
 
 export default app;
